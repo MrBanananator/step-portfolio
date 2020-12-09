@@ -30,20 +30,20 @@ a {
     background-color: rgb(0, 158, 216);
 
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 
     font-family: poppins;
     color: white;
 }
 
-#name, #nav, #logos {
-    padding-top: 0.9em;
+#nav, #logos {
+    margin-left: 20%;
 }
 
 #name {
     font-weight: bold;
     font-size: 2em;
-    padding-left: 3.5em;
 }
 
 #nav ul {
@@ -97,6 +97,27 @@ a {
     color: white;
     font: medium;
     font-weight: bold;
-    font-size: 2.7em;
-    padding: 20% 0% 0% 9%;
+    font-size: 4.5em;
+    padding: 19% 0% 0% 13%;
+    width: 40%;
+}
+
+
+/* #D95526 */
+
+#footer {
+    width: 100%;
+    height: 15vh;
+    background-color: rgb(0, 158, 216);
+
+    font-family: poppins;
+    color: white;
+}
+
+#footer h2 {
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+    vertical-align: center;
+    line-height: 15vh;
 }
