@@ -1,4 +1,9 @@
-* {
+img {
+    max-width: 500px;
+    height: auto;
+}
+
+/* * {
 	margin:0;
 	padding:0;
 	font-family: sans-serif;
@@ -98,4 +103,4 @@ a {
 
 .main .gallery .img:hover img {
 	filter: brightness(1) grayscale(0);
-}
+} */
