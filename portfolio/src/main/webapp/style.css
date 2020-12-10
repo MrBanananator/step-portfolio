@@ -152,7 +152,7 @@ a {
     width: 500px;
     height: auto;
     border-radius: 10%;
-    border: 3px solid rgb(247, 144, 59);
+    border: 10px solid rgb(247, 144, 59);
 }
 
 #skills {
@@ -167,13 +167,14 @@ a {
 #skills-container ul {
     display: grid;
     grid-template-columns: repeat(3, auto);
-    grid-gap: 2em;
+    grid-gap: 4em;
+    padding: 0 4em;
 }
 
 #skills-container ul li {
     background: white;
     padding: 2em;
-    border-radius: 1em;
+    border-radius: 4em;
     margin-bottom: 1em;
 
     text-align: center;
@@ -193,10 +194,12 @@ a {
 .skill-title {
     font-weight: bold;
     margin-bottom: 1em;
+    font-size: 1.1em;
 }
 
 .skill-desc {
     margin-bottom: 2em;
+    font-size: 0.9em;
 }
 
 
