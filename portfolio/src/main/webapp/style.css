@@ -14,16 +14,6 @@ a {
     color: inherit;
 }
 
-#content {
-    margin-left: auto;
-    margin-right: auto;
-    width: 650px;
-}
-
-#greeting-container {
-    margin-top: 20px;
-}
-
 #header {
     width: 100%;
     height: 15vh;
@@ -162,7 +152,53 @@ a {
     width: 500px;
     height: auto;
     border-radius: 10%;
+    border: 3px solid rgb(247, 144, 59);
 }
+
+#skills {
+    background: rgb(247, 144, 59);
+    padding: 2em;
+    padding-top: 6em;
+    margin-top: -4em;
+
+    font-family: poppins;
+}
+
+#skills-container ul {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 2em;
+}
+
+#skills-container ul li {
+    background: white;
+    padding: 2em;
+    border-radius: 1em;
+    margin-bottom: 1em;
+
+    text-align: center;
+}
+
+#icon-1, #icon-2, #icon-3 {
+    height: 100px;
+    display: grid;
+    place-content: center;
+    margin: 0 auto;
+}
+
+#icon-1 img, #icon-2 img, #icon-3 img {
+    width: 75px;
+}
+
+.skill-title {
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.skill-desc {
+    margin-bottom: 2em;
+}
+
 
 #footer {
     width: 100%;
