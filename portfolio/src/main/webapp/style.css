@@ -219,3 +219,10 @@ a {
     vertical-align: center;
     line-height: 15vh;
 } 
+
+a:hover {
+    color: rgb(255, 196, 147);
+    cursor: pointer;
+    transition: 0.4s;
+    transform: scale(1.10);  
+}
