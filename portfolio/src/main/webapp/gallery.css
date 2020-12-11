@@ -1,9 +1,4 @@
-img {
-    max-width: 500px;
-    height: auto;
-}
-
-/* * {
+* {
 	margin:0;
 	padding:0;
 	font-family: sans-serif;
@@ -34,7 +29,7 @@ a {
 	color:rgb(0, 158, 216);
 	border-left: 5px solid rgb(0, 158, 216);
 	border-right: 5px solid rgb(0, 158, 216);
-	background:rgba(192, 192, 192, 0.164);
+	background:rgba(223, 223, 223, 0.164);
 }
 
 .main p {
@@ -103,4 +98,14 @@ a {
 
 .main .gallery .img:hover img {
 	filter: brightness(1) grayscale(0);
-} */
+}
+
+a:hover {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23ff9800' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+    background-position: 0 100%;
+    background-size: auto 6px;
+    background-repeat: repeat-x;
+
+    color: rgb(255, 196, 147);
+    cursor: pointer;
+}
