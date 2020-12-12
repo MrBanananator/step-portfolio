@@ -84,20 +84,22 @@ a {
 
     color: white;
     font: medium;
+
+    font-family: poppins;
 }
 
 #hero-title {
     font-weight: bold;
     font-size: 4em;
 
-    padding: 6% 0% 0% 11%;
+    padding: 4% 0% 0% 6.2%;
     width: 45%;
 }
 
 #hero-subtitle {
     font-size: 1em;
 
-    padding: 0% 0% 0% 11%;
+    padding: 0% 0% 0% 6.2%;
     width: 45%;
 } 
 
@@ -221,8 +223,8 @@ a {
 } 
 
 a:hover {
-    color: rgb(255, 196, 147);
+    color: rgb(255, 212, 176);
     cursor: pointer;
-    transition: 0.4s;
-    transform: scale(1.10);  
+    transition: 0.3s;
+    transform: scale(1.20);  
 }
