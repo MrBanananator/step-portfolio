@@ -12,17 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['My middle name is James', 'I have performed for over a million people', 'I am 18 years old', 'I have two cats'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+function getWelcomeMessage() {
+    fetch('/data').then(response => response.text()).then((welcome) => {
+        document.getElementById('welcome-text').innerHTML = welcome;
+    });
 }
