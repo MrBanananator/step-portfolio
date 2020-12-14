@@ -12,8 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function getWelcomeMessage() {
-    fetch('/data').then(response => response.text()).then((welcome) => {
-        document.getElementById('welcome-text').innerHTML = welcome;
-    });
+async function putComments() {
+    const response = await fetch('/data');
+    const comments = await response.json();
+
+    for (i = 0; i < comments.length; i++) {
+        var para = document.createElement("p");
+        var node = document.createTextNode(comments[i]);
+        para.appendChild(node);
+
+        var element = document.getElementById("comment-container");
+        element.appendChild(para);
+    }
 }
