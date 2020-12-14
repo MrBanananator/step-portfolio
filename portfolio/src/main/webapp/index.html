@@ -5,7 +5,7 @@
         <title>Jared Smith's Portfolio</title>
         <link rel="stylesheet" href="style.css">
     </head>
-    <body>
+    <body onload="putComments()">
         <div id="header">
             <div id="name"><a href="#top">Jared Smith</a></div>
             <div id="nav">
@@ -72,8 +72,15 @@
         </section>
 
         <section id="comments">
-            <button id="welcome-button" onclick="putComments()">Click Here</button>
-            <div id="comment-container">
+            <form action="/data" method="POST">
+                <p>Enter your comment:</p>
+                <textarea type="text" id="comment-input" name="text-input"></textarea>
+                <br/><br/>
+                
+                <input id="comment-submit" type="submit" />
+            </form>
+
+            <div id="comments-container">
 
             </div>
         </section>

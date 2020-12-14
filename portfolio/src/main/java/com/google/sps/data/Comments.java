@@ -12,23 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-async function putComments() {
-    console.log("Test");
+package com.google.sps.data;
 
-    const response = await fetch('/data');
-    const json = await response.json();
+import java.util.ArrayList;
+import java.util.List;
 
-    var element = document.getElementById("comments-container");
-    json.comments.forEach((comment) => {
-        element.appendChild(createListElement(comment));
-    });
+public class Comments {
+    private final List<String> comments = new ArrayList<>();
 
-    console.log(json.comments);
-}
-
-/** Creates an <p> element containing text. */
-function createListElement(text) {
-    const para = document.createElement('p');
-    para.innerText = text;
-    return para;
+    public void addComment(String comment) {
+        comments.add(comment);
+    }
 }
