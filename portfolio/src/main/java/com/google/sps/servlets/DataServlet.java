@@ -24,34 +24,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.GsonBuildConfig;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+import com.google.sps.data.Comments;
+
+/** Servlet that returns some example content. */
 @WebServlet("/data")
-public class DataServlet extends HttpServlet {
-
-    private ArrayList<String> comments;
-
-    @Override
-    public void init() {
-        comments = new ArrayList<>();
-        comments.add("Wow, your page looks really nice!");
-        comments.add("I think you should add some more sections.");
-        comments.add("I really like the gallery. You were so cute!");
-    }
+public final class DataServlet extends HttpServlet {
+    private Comments comments = new Comments();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String json = convertCommentsToJson();
+        response.setContentType("application/json");
+        String json = new Gson().toJson(comments);
         response.getWriter().println(json);
     }
 
-    /**
-     * Converts a ServerStats instance into a JSON string using the Gson library. Note: We first added
-     * the Gson library dependency to pom.xml.
-     */
-    private String convertCommentsToJson() {
-        Gson gson = new Gson();
-        String json = gson.toJson(comments);
-        return json;
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        comments.addComment(request.getParameter("text-input"));
+        response.sendRedirect("/index.html");
     }
 }
