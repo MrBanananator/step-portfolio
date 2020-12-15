@@ -72,7 +72,18 @@
         </section>
 
         <section id="comments">
-            <form action="/data" method="POST">
+            <form method="POST" action="/new-data">
+                <label for="comment-num">Max comments:</label>
+
+                <select name="comment-num" id="comment-num" onchange="putComments()">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                </select>
+                <br/><br/>
+
                 <p>Enter your comment:</p>
                 <textarea type="text" id="comment-input" name="text-input"></textarea>
                 <br/><br/>
@@ -80,9 +91,7 @@
                 <input id="comment-submit" type="submit" />
             </form>
 
-            <div id="comments-container">
-
-            </div>
+            <ul id="comments-container"></ul>
         </section>
 
         <div id="footer">

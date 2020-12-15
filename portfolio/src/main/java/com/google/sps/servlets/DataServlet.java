@@ -40,17 +40,18 @@ import com.google.sps.data.Comment;
 public final class DataServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+        Query query = new Query("Comment").addSort("timeMs", SortDirection.DESCENDING);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
         List<Comment> comments = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
+            Long id = entity.getKey().getId();
             String content = (String) entity.getProperty("content");
-            long timeMillis = (long) entity.getProperty("timeMillis");
+            long timeMs = (long) entity.getProperty("timeMs");
 
-            Comment comment = new Comment(content, timeMillis);
+            Comment comment = new Comment(id, content, timeMs);
             comments.add(comment);
         }
 
@@ -58,20 +59,5 @@ public final class DataServlet extends HttpServlet {
 
         response.setContentType("application/json;");
         response.getWriter().println(gson.toJson(comments));
-    }
-
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String comment = request.getParameter("text-input");
-        long timestamp = System.currentTimeMillis();
-
-        Entity commentEntity = new Entity("Comment");
-        commentEntity.setProperty("comment", comment);
-        commentEntity.setProperty("timestamp", timestamp);
-
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(commentEntity);
-
-        response.sendRedirect("/index.html");
     }
 }
