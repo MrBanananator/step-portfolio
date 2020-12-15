@@ -14,13 +14,12 @@
 
 package com.google.sps.data;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class Comment {
+    private final String comment;
+    private final Long timestamp;
 
-public class Comments {
-    private final List<String> comments = new ArrayList<>();
-
-    public void addComment(String comment) {
-        comments.add(comment);
+    public Comment (String comment, Long timestamp) {
+        this.comment = comment;
+        this.timestamp = timestamp;
     }
 }
