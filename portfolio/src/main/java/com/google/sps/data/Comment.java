@@ -16,10 +16,10 @@ package com.google.sps.data;
 
 public final class Comment {
     private final String comment;
-    private final Long timestamp;
+    private final Long timeMillis;
 
-    public Comment (String comment, Long timestamp) {
+    public Comment (String comment, Long timeMillis) {
         this.comment = comment;
-        this.timestamp = timestamp;
+        this.timeMillis = timeMillis;
     }
 }
