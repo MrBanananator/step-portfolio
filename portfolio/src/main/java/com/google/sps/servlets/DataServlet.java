@@ -47,11 +47,11 @@ public final class DataServlet extends HttpServlet {
 
         List<Comment> comments = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
-            String comment = (String) entity.getProperty("comment");
-            long timestamp = (long) entity.getProperty("timestamp");
+            String content = (String) entity.getProperty("content");
+            long timeMillis = (long) entity.getProperty("timeMillis");
 
-            Comment nextComment = new Comment(comment, timestamp);
-            comments.add(nextComment);
+            Comment comment = new Comment(content, timeMillis);
+            comments.add(comment);
         }
 
         Gson gson = new Gson();
