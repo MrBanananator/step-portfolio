@@ -15,11 +15,13 @@
 package com.google.sps.data;
 
 public final class Comment {
-    private final String comment;
-    private final Long timeMillis;
+    private final Long id;
+    private final String content;
+    private final Long timeMs;
 
-    public Comment (String comment, Long timeMillis) {
-        this.comment = comment;
-        this.timeMillis = timeMillis;
+    public Comment (Long id, String content, Long timeMs) {
+        this.id = id;
+        this.content = content;
+        this.timeMs = timeMs;
     }
 }

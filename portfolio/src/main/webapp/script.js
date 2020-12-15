@@ -16,15 +16,40 @@ async function putComments() {
     const response = await fetch('/data');
     const json = await response.json();
 
+    var maxComments = document.getElementById("comment-num").value;
+
+    document.getElementById("comments-container").innerHTML = "";
+
     var element = document.getElementById("comments-container");
-    json.forEach((comment) => {
-        element.appendChild(createListElement(comment.comment));
-    });
+    for (i = 0; i < json.length && i < maxComments; i++) {
+        console.log(json[i]);
+        element.appendChild(createCommentElement(json[i]));
+    }
 }
 
 /** Creates an <p> element containing text. */
-function createListElement(text) {
-    const para = document.createElement('p');
-    para.innerText = text;
-    return para;
+function createCommentElement(comment) {
+    const commentElement = document.createElement('li');
+    commentElement.className = 'comment';
+
+    const contentElement = document.createElement('p');
+    contentElement.innerText = comment.content;
+    console.log(comment.content);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerText = 'Delete';
+    deleteButton.addEventListener('click', () => {
+        deleteComment(comment);
+        commentElement.remove();
+    });
+
+    commentElement.appendChild(contentElement);
+    commentElement.appendChild(deleteButton);
+    return commentElement;
+}
+
+async function deleteComment(comment) {
+    const params = new URLSearchParams();
+    params.append('id', comment.id);
+    fetch('/delete-data', {method: 'POST', body: params});
 }
