@@ -26,23 +26,52 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.internal.GsonBuildConfig;
 
-import com.google.sps.data.Comments;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+
+import com.google.sps.data.Comment;
 
 /** Servlet that returns some example content. */
 @WebServlet("/data")
 public final class DataServlet extends HttpServlet {
-    private Comments comments = new Comments();
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        String json = new Gson().toJson(comments);
-        response.getWriter().println(json);
+        Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query);
+
+        List<Comment> comments = new ArrayList<>();
+        for (Entity entity : results.asIterable()) {
+            String content = (String) entity.getProperty("content");
+            long timeMillis = (long) entity.getProperty("timeMillis");
+
+            Comment comment = new Comment(content, timeMillis);
+            comments.add(comment);
+        }
+
+        Gson gson = new Gson();
+
+        response.setContentType("application/json;");
+        response.getWriter().println(gson.toJson(comments));
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        comments.addComment(request.getParameter("text-input"));
+        String comment = request.getParameter("text-input");
+        long timestamp = System.currentTimeMillis();
+
+        Entity commentEntity = new Entity("Comment");
+        commentEntity.setProperty("comment", comment);
+        commentEntity.setProperty("timestamp", timestamp);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(commentEntity);
+
         response.sendRedirect("/index.html");
     }
 }

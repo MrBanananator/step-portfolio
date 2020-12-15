@@ -13,17 +13,13 @@
 // limitations under the License.
 
 async function putComments() {
-    console.log("Test");
-
     const response = await fetch('/data');
     const json = await response.json();
 
     var element = document.getElementById("comments-container");
-    json.comments.forEach((comment) => {
-        element.appendChild(createListElement(comment));
+    json.forEach((comment) => {
+        element.appendChild(createListElement(comment.comment));
     });
-
-    console.log(json.comments);
 }
 
 /** Creates an <p> element containing text. */
