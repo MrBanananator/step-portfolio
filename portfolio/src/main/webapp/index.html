@@ -5,7 +5,7 @@
         <title>Jared Smith's Portfolio</title>
         <link rel="stylesheet" href="style.css">
     </head>
-    <body onload="putComments()">
+    <body onload="putComments(); createMap()">
         <div id="header">
             <div id="name"><a href="#top">Jared Smith</a></div>
             <div id="nav">
@@ -94,10 +94,16 @@
             <ul id="comments-container"></ul>
         </section>
 
+        <section id="map-container">
+            <h2 id="map-title">Where I was born: Warwick</h2>
+            <div id="map"></div>
+        </section>
+
         <div id="footer">
             <h2><a href="#top">Jared Smith</a></h2>
         </div>
 
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWKM6lIGKQ4hLbWkE2VOAGNlnY28KNycw"></script>
         <script src="script.js"></script>
     </body>
 </html>
