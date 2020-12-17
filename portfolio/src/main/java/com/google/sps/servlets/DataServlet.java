@@ -33,31 +33,43 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
+
 import com.google.sps.data.Comment;
 
 /** Servlet that returns some example content. */
 @WebServlet("/data")
 public final class DataServlet extends HttpServlet {
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Query query = new Query("Comment").addSort("timeMs", SortDirection.DESCENDING);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
+        
+        String languageCode = request.getParameter("languageCode");
 
         List<Comment> comments = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
             Long id = entity.getKey().getId();
             String content = (String) entity.getProperty("content");
+
+            // Do the translation.
+            Translate translate = TranslateOptions.getDefaultInstance().getService();
+            Translation translation = translate.translate(content, Translate.TranslateOption.targetLanguage(languageCode));
+            String translatedContent = translation.getTranslatedText();
+
             long timeMs = (long) entity.getProperty("timeMs");
 
-            Comment comment = new Comment(id, content, timeMs);
+            Comment comment = new Comment(id, translatedContent, timeMs);
             comments.add(comment);
         }
 
         Gson gson = new Gson();
 
-        response.setContentType("application/json;");
+        response.setContentType("application/json; charset=UTF-8");
         response.getWriter().println(gson.toJson(comments));
     }
 }

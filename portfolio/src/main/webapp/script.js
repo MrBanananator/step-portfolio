@@ -13,7 +13,12 @@
 // limitations under the License.
 
 async function putComments() {
-    const response = await fetch('/data');
+    const params = new URLSearchParams();
+    const languageCode = document.getElementById('language').value;
+    console.log(languageCode);
+    params.append('languageCode', languageCode);
+
+    const response = await fetch('/data', {method: 'POST', body: params});
     const json = await response.json();
 
     var maxComments = document.getElementById("comment-num").value;
@@ -34,7 +39,6 @@ function createCommentElement(comment) {
 
     const contentElement = document.createElement('p');
     contentElement.innerText = comment.content;
-    console.log(comment.content);
 
     const deleteButton = document.createElement('button');
     deleteButton.innerText = 'Delete';
@@ -51,5 +55,6 @@ function createCommentElement(comment) {
 async function deleteComment(comment) {
     const params = new URLSearchParams();
     params.append('id', comment.id);
-    fetch('/delete-data', {method: 'POST', body: params});
+    await fetch('/delete-data', {method: 'POST', body: params});
+    putComments();
 }
