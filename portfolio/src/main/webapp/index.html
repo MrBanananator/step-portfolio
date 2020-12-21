@@ -73,8 +73,16 @@
 
         <section id="comments">
             <form method="POST" action="/new-data">
-                <label for="comment-num">Max comments:</label>
+                <label for="language">Comment language:</label>
+                <select name="language" id="language" onchange="putComments()">
+                    <option value="en">English</option>
+                    <option value="zh">Chinese</option>
+                    <option value="es">Spanish</option>
+                    <option value="hi">Hindi</option>
+                    <option value="ar">Arabic</option>
+                </select>
 
+                <label for="comment-num">Max comments:</label>
                 <select name="comment-num" id="comment-num" onchange="putComments()">
                     <option value="2">2</option>
                     <option value="4">4</option>
