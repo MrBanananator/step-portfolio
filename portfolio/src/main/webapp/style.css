@@ -228,3 +228,26 @@ a:hover {
     transition: 0.3s;
     transform: scale(1.20);  
 }
+
+#map-container {
+    display: grid;
+    width: 100%;
+}
+
+#map-title, #map {
+    margin: auto;
+}
+
+#map-title {
+    font-family: poppins;
+    color: black;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 0.4em;
+}
+
+#map {
+    border: thin solid black;
+    height: 500px;
+    width: 500px;
+}
