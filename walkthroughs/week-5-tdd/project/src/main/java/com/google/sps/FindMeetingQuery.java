@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class FindMeetingQuery {
-    // private static final int SMALLEST_DURATION = 15;
+    private static final int SMALLEST_DURATION = 15;
 
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         /** the request is too long */
@@ -44,8 +44,8 @@ public final class FindMeetingQuery {
         */
 
         ArrayList<TimeRange> allTimes = new ArrayList<TimeRange>();
-        for (int i = 0; i < TimeRange.END_OF_DAY; i += 30) {
-            allTimes.add(TimeRange.fromStartDuration(i, 30));
+        for (int i = 0; i < TimeRange.END_OF_DAY; i += SMALLEST_DURATION) {
+            allTimes.add(TimeRange.fromStartDuration(i, SMALLEST_DURATION));
         }
 
         Set<TimeRange> eventTimes = new HashSet<TimeRange>();
@@ -67,8 +67,8 @@ public final class FindMeetingQuery {
             TimeRange when = ev.getWhen();
             int j = when.duration();
             while (j != 0) {
-                eventTimes.add(TimeRange.fromStartDuration(when.end() - j, 30));
-                j -= 30;
+                eventTimes.add(TimeRange.fromStartDuration(when.end() - j, SMALLEST_DURATION));
+                j -= SMALLEST_DURATION;
             }
         }
 
@@ -78,13 +78,13 @@ public final class FindMeetingQuery {
         for (int i = 0; i < allTimes.size(); i++) {
             int start = allTimes.get(i).start();
             int end = allTimes.get(i).end();
-            for (int newStart = end; i < allTimes.size() && newStart == allTimes.get(i).end(); newStart += 30) {
-                end += 30;
+            for (int newStart = end; i < allTimes.size() && newStart == allTimes.get(i).end(); newStart += SMALLEST_DURATION) {
+                end += SMALLEST_DURATION;
                 i++;
             }
 
-            if (end - start - 30 >= request.getDuration()) {
-                meetingTimes.add(TimeRange.fromStartEnd(start, end - 30, false));
+            if (end - start - SMALLEST_DURATION >= request.getDuration()) {
+                meetingTimes.add(TimeRange.fromStartEnd(start, end - SMALLEST_DURATION, false));
             }
 
             i--;
