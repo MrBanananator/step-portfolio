@@ -25,50 +25,48 @@ public final class FindMeetingQuery {
     private static final int SMALLEST_DURATION = 15;
 
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-        /** the request is too long */
+        // the request is too long
         if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
-            return Arrays.asList();
+            return new ArrayList<>();
         }
 
-        /** there are no events or no attendes */
+        // there are no events or no attendes
         if (events.isEmpty() || request.getAttendees().isEmpty()) {
             return Arrays.asList(TimeRange.WHOLE_DAY);
         } 
 
-        /** Algorithm
-         * 1. Create an array and set of possible meeting times and all events in 30min blocks for the whole day
-         * 2. Remove all the event times from the possible meeting times collection
-         * 3. Piece meeting times together to make longest possible blocks
-         * 4. Remove any blocks which are less than the requested meeting duration
-         * 5. If there are no possible meeting times, repeat without optional attendees (if there are)
-        */
+        // Algorithm
+        //  1. Create an array and set of possible meeting times and all events in 30min blocks for the whole day
+        //  2. Remove all the event times from the possible meeting times collection
+        //  3. Piece meeting times together to make longest possible blocks
+        //  4. Remove any blocks which are less than the requested meeting duration
+        //  5. If there are no possible meeting times, repeat without optional attendees (if there are)
+        
 
         ArrayList<TimeRange> allTimes = new ArrayList<TimeRange>();
         for (int i = 0; i < TimeRange.END_OF_DAY; i += SMALLEST_DURATION) {
             allTimes.add(TimeRange.fromStartDuration(i, SMALLEST_DURATION));
         }
 
-        Set<TimeRange> eventTimes = new HashSet<TimeRange>();
+        Set<TimeRange> eventTimes = new HashSet<>();
         for (Event ev: events) {
             boolean attendBoth = false;
             loop: for (String eventAttendee: ev.getAttendees()) {
                 for (String meetingAttendee: request.getAttendees()) {
-                    if (eventAttendee == meetingAttendee) {
+                    if (eventAttendee.equals(meetingAttendee)) {
                         attendBoth = true;
                         break loop;
                     }
                 }
             }
 
-            if (!attendBoth) {
-                break;
-            }
-
-            TimeRange when = ev.getWhen();
-            int j = when.duration();
-            while (j != 0) {
-                eventTimes.add(TimeRange.fromStartDuration(when.end() - j, SMALLEST_DURATION));
-                j -= SMALLEST_DURATION;
+            if (attendBoth) {
+                TimeRange when = ev.getWhen();
+                int j = when.duration();
+                while (j > 0) {
+                    eventTimes.add(TimeRange.fromStartDuration(when.end() - j, SMALLEST_DURATION));
+                    j -= SMALLEST_DURATION;
+                }
             }
         }
 
