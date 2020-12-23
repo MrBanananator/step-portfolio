@@ -124,7 +124,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void everyAttendeeIsConsidered2() {
+  public void optionalAttendeeWithNoGapsNotConsidered() {
     // Events  : |-----(--A--)--C--(--B--)-----|
     // Day     : |-----------------------------|
     // Options : |--1--|     |--2--|     |--3--|
@@ -152,7 +152,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void everyAttendeeIsConsidered3() {
+  public void optionalAttendeeIsConsidered() {
     // Events  :       |--A--|--C--|--B--|
     // Day     : |-----------------------------|
     // Options : |--1--|                 |--2--|
@@ -281,7 +281,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void justEnoughRoom2() {
+  public void justEnoughRoomWithoutOptionalAttendee() {
     // Have one person, but make it so that there is just enough room at one point in the day to
     // have the meeting.
     //
@@ -357,7 +357,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void noMandatoryAttendees() {
+  public void onlyOptionalAttendeesWithGaps() {
     // Events  : ------|--A--|-----|--B--|------
     // Day     : |-----------------------------|
     // Options : |--1--|     |--2--|     |--3--|
@@ -384,7 +384,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void noMandatoryAttendeesNoGaps() {
+  public void onlyOptionalAttendeesWithNoGaps() {
     // Events  : |-------A------|-------B------|
     // Day     : |-----------------------------|
     // Options : |--1--|     |--2--|     |--3--|
