@@ -30,8 +30,8 @@ public final class FindMeetingQuery {
             return new ArrayList<>();
         }
 
-        // there are no events or no attendes
-        if (events.isEmpty() || request.getAttendees().isEmpty()) {
+        // there are no events
+        if (events.isEmpty()) {
             return Arrays.asList(TimeRange.WHOLE_DAY);
         } 
 
@@ -43,18 +43,29 @@ public final class FindMeetingQuery {
         //  5. If there are no possible meeting times, repeat without optional attendees (if there are)
         
 
-        ArrayList<TimeRange> allTimes = new ArrayList<TimeRange>();
+        ArrayList<TimeRange> allTimes = new ArrayList<>();
         for (int i = 0; i < TimeRange.END_OF_DAY; i += SMALLEST_DURATION) {
             allTimes.add(TimeRange.fromStartDuration(i, SMALLEST_DURATION));
         }
 
-        Set<TimeRange> eventTimes = new HashSet<>();
+        Collection<String> meetingAttendees = request.getAttendees();
+        Collection<String> optionalAttendees = request.getOptionalAttendees();
+        Set<TimeRange> allEventTimes = new HashSet<>();
+        Set<TimeRange> mandatoryEventTimes = new HashSet<>();
         for (Event ev: events) {
             boolean attendBoth = false;
+            boolean optional = false;
             loop: for (String eventAttendee: ev.getAttendees()) {
-                for (String meetingAttendee: request.getAttendees()) {
+                for (String meetingAttendee: meetingAttendees) {
                     if (eventAttendee.equals(meetingAttendee)) {
                         attendBoth = true;
+                        break loop;
+                    }
+                }
+                for (String optionalAttendee: optionalAttendees) {
+                    if (eventAttendee.equals(optionalAttendee)) {
+                        attendBoth = true;
+                        optional = true;
                         break loop;
                     }
                 }
@@ -64,15 +75,36 @@ public final class FindMeetingQuery {
                 TimeRange when = ev.getWhen();
                 int j = when.duration();
                 while (j > 0) {
-                    eventTimes.add(TimeRange.fromStartDuration(when.end() - j, SMALLEST_DURATION));
+                    TimeRange eventTime = TimeRange.fromStartDuration(when.end() - j, SMALLEST_DURATION);
+                    if (!optional) {
+                        mandatoryEventTimes.add(eventTime);
+                    }
+                    allEventTimes.add(eventTime);
+
                     j -= SMALLEST_DURATION;
                 }
             }
         }
 
-        allTimes.removeAll(eventTimes);
+        ArrayList<TimeRange> allTimesCopy = new ArrayList<>(allTimes);
 
-        ArrayList<TimeRange> meetingTimes = new ArrayList<TimeRange>();
+        allTimes.removeAll(allEventTimes);
+        allTimesCopy.removeAll(mandatoryEventTimes);
+
+        ArrayList<TimeRange> meetingTimes = new ArrayList<>();
+        meetingTimes = getMeetingTimes(allTimes, request);
+
+        // If there are no possible meetings considering optional attendees,
+        // only consider the mandatory attendees.
+        if (meetingTimes.size() == 0) {
+            meetingTimes = getMeetingTimes(allTimesCopy, request);
+        }
+
+        return meetingTimes;
+    }
+    
+    public ArrayList<TimeRange> getMeetingTimes(ArrayList<TimeRange> allTimes, MeetingRequest request) {
+        ArrayList<TimeRange> meetingTimes = new ArrayList<>();
         for (int i = 0; i < allTimes.size(); i++) {
             int start = allTimes.get(i).start();
             int end = allTimes.get(i).end();
