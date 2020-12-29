@@ -21,8 +21,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
-
 public final class FindMeetingQuery {
     private static final int SMALLEST_DURATION = 15;
 
